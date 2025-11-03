@@ -2,9 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+
+import { Match } from './match.entity'
+import { Lobby } from './lobby.entity'
 
 export enum GameTypeEnum {
   STRATEGY = 'strategy',
@@ -50,4 +54,11 @@ export class Game {
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  // RELATIONS
+  @OneToMany(() => Lobby, (lobby) => lobby.game)
+  lobbies: Lobby[]
+
+  @OneToMany(() => Match, (match) => match.game)
+  matches: Match[]
 }

@@ -2,9 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+
+import { Match } from './match.entity'
+import { Lobby } from './lobby.entity'
 
 @Entity()
 export class User {
@@ -25,4 +30,17 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  // RELATIONS
+  @OneToMany(() => Match, (match) => match.winner)
+  wonMatches: Match[]
+
+  @OneToMany(() => Lobby, (lobby) => lobby.host)
+  lobbiesHost: Lobby[]
+
+  @ManyToMany(() => Match, (match) => match.players)
+  matches: Match[]
+
+  @ManyToMany(() => Lobby, (lobby) => lobby.players)
+  lobbies: Lobby[]
 }
