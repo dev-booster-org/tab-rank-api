@@ -1,0 +1,35 @@
+{
+  "name": "api-tab-rank",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx --watch src/server.ts",
+    "typeorm": "typeorm-ts-node-esm -d ./src/database/typeorm-datasource.ts",
+    "migration:create": "typeorm-ts-node-esm migration:create src/database/migrations/$npm_config_name",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "migration:generate": "typeorm-ts-node-esm migration:generate src/database/migrations/$npm_config_name -d ./src/database/typeorm-datasource.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "reflect-metadata": "^0.2.2",
+    "pg": "^8.16.3",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typeorm": "^0.3.27"
+  },
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.0",
+    "eslint": "^8.56.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

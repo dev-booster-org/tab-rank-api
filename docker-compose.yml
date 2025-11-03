@@ -1,0 +1,10 @@
+services: 
+  tab-rank-db:
+    image: bitnami/postgresql
+    container_name: tab-rank-db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=PG_USERNAME
+      - POSTGRESQL_PASSWORD=PG_PASSWORD
+      - POSTGRESQL_DATABASE=PG_DATABASE
