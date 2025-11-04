@@ -2,16 +2,32 @@ import 'reflect-metadata'
 import 'dotenv/config'
 import '@shared/container'
 
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 
 import { routes } from '@routes/index'
-import AppDataSource from './database/typeorm-datasource'
+import AppDataSource from '@database/typeorm-datasource'
+import { AppError } from '@shared/errors/app-error'
 
 const app = express()
 
 app.use(express.json())
 
 app.use('/api', routes)
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
+  if (err instanceof AppError) {
+    return response.status(err.statusCode).json({
+      status: 'error',
+      message: err.message,
+    })
+  }
+
+  return response.status(500).json({
+    status: 'error',
+    message: 'Internal server error',
+  })
+})
 
 const PORT = process.env.PORT || 3000
 
