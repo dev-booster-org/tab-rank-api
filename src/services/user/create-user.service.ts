@@ -1,3 +1,5 @@
+import { inject, injectable } from 'tsyringe'
+
 import { UserRepository } from '@repositories/user.repository'
 
 type IRequest = {
@@ -6,8 +8,12 @@ type IRequest = {
   password: string
 }
 
+@injectable()
 export class CreateUserService {
-  private readonly userRepository = new UserRepository()
+  constructor(
+    @inject('UserRepository')
+    private userRepository: UserRepository,
+  ) {}
 
   async execute({ nickName, email, password }: IRequest) {
     const userWithSameEmail = await this.userRepository.findByEmail({ email })

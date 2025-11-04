@@ -16,7 +16,8 @@
       "@entities/*": ["./src/entities/*"],
       "@repositories/*": ["./src/repositories/*"],
       "@routes/*": ["./src/routes/*"],
-      "@services/*": ["./src/services/*"]
+      "@services/*": ["./src/services/*"],
+      "@shared/*": ["./src/shared/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

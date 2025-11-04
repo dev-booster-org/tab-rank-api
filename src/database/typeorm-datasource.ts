@@ -20,8 +20,8 @@ const AppDataSource = new DataSource({
   password: process.env.PG_PASSWORD as string,
   database: process.env.PG_NAME as string,
   migrations: [path.join(__dirname, './migrations/*.{ts,js}')],
-  entities: [path.join(__dirname, '../entities/*.{ts,js}')],
-  logging: true,
+  entities: [path.join(__dirname, '../entities/*.entity.{ts,js}')],
+  logging: false,
   synchronize: false,
 })
 

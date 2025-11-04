@@ -1,3 +1,5 @@
+import { inject, injectable } from 'tsyringe'
+
 import { GameTypeEnum } from '@entities/game.entity'
 import { GameRepository } from '@repositories/game.repository'
 
@@ -9,8 +11,12 @@ type IRequest = {
   coverImageUrl: string
 }
 
+@injectable()
 export class CreateGameService {
-  private readonly gameRepository = new GameRepository()
+  constructor(
+    @inject('GameRepository')
+    private gameRepository: GameRepository,
+  ) {}
 
   async execute({
     maxPlayers,

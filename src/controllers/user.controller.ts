@@ -1,14 +1,15 @@
 import { Request, Response } from 'express'
+import { container } from 'tsyringe'
 
 import { CreateUserService } from '@services/user/create-user.service'
 
 export class UserController {
-  private readonly createUserService = new CreateUserService()
-
   async create(request: Request, response: Response) {
     const { nickName, email, password } = request.body
 
-    const user = await this.createUserService.execute({
+    const createUserService = container.resolve(CreateUserService)
+
+    const user = await createUserService.execute({
       nickName,
       email,
       password,
