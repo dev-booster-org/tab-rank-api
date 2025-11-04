@@ -6,4 +6,5 @@ const lobbyController = new LobbyController()
 
 export const lobbyRoutes = Router()
 
-lobbyRoutes.post('/', lobbyController.create)
+lobbyRoutes.post('/create', lobbyController.create)
+lobbyRoutes.post('/join', lobbyController.join)

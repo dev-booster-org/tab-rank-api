@@ -8,6 +8,6 @@ import { matchRoutes } from './match.routes'
 export const routes = Router()
 
 routes.use('/user', userRoutes)
-routes.use('/lobbie', lobbyRoutes)
+routes.use('/lobby', lobbyRoutes)
 routes.use('/game', gameRoutes)
-routes.use('/matche', matchRoutes)
+routes.use('/match', matchRoutes)
