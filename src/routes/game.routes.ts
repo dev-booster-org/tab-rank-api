@@ -6,4 +6,4 @@ const gameController = new GameController()
 
 export const gameRoutes = Router()
 
-gameRoutes.post('/', gameController.create)
+gameRoutes.post('/create', gameController.create)

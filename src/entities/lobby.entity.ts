@@ -11,19 +11,19 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import { User } from './user.entity'
-import { Match } from './match.entity'
-import { Game } from './game.entity'
+import type { User } from './user.entity.js'
+import type { Match } from './match.entity.js'
+import type { Game } from './game.entity.js'
 
 @Entity()
 export class Lobby {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({ nullable: true, unique: true })
+  @Column({ type: 'varchar', nullable: true, unique: true })
   joinCode: string | null
 
-  @Column({ nullable: false })
+  @Column({ type: 'boolean', nullable: false })
   isActive: boolean
 
   @CreateDateColumn()
@@ -33,15 +33,15 @@ export class Lobby {
   updatedAt: Date
 
   // RELATIONS
-  @ManyToOne(() => User, { nullable: false })
+  @ManyToOne('User', { nullable: false })
   @JoinColumn({ name: 'host_id' })
   host: User
 
-  @ManyToOne(() => Game, { nullable: false })
+  @ManyToOne('Game', { nullable: false })
   @JoinColumn({ name: 'game_id' })
   game: Game
 
-  @ManyToMany(() => User, (user) => user.lobbies)
+  @ManyToMany('User', (user: User) => user.lobbies)
   @JoinTable({
     name: 'lobby_players',
     joinColumn: { name: 'lobby_id', referencedColumnName: 'id' },
@@ -49,6 +49,6 @@ export class Lobby {
   })
   players: User[]
 
-  @OneToMany(() => Match, (match) => match.lobby)
+  @OneToMany('Match', (match: Match) => match.lobby)
   matches: Match[]
 }

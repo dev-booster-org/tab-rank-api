@@ -6,4 +6,4 @@ const userController = new UserController()
 
 export const userRoutes = Router()
 
-userRoutes.post('/', userController.create)
+userRoutes.post('/create', userController.create)

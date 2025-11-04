@@ -1,10 +1,16 @@
+import 'reflect-metadata'
 import 'dotenv/config'
 import * as dotenv from 'dotenv'
 import * as path from 'path'
+import { fileURLToPath } from 'url'
 
 import { DataSource } from 'typeorm'
 
 dotenv.config()
+
+// __dirname is not defined in ESM. Convert import.meta.url to a file path.
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -19,4 +25,4 @@ const AppDataSource = new DataSource({
   synchronize: false,
 })
 
-export { AppDataSource }
+export default AppDataSource

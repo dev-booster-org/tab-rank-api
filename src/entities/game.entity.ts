@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import { Match } from './match.entity'
-import { Lobby } from './lobby.entity'
+import type { Match } from './match.entity.js'
+import type { Lobby } from './lobby.entity.js'
 
 export enum GameTypeEnum {
   STRATEGY = 'strategy',
@@ -34,19 +34,19 @@ export class Game {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({ nullable: false, unique: true })
+  @Column({ type: 'varchar', nullable: false, unique: true })
   name: string
 
   @Column({ enum: GameTypeEnum, type: 'enum', array: true, nullable: false })
   type: GameTypeEnum[]
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   coverImageUrl: string | null
 
-  @Column({ nullable: false })
+  @Column({ type: 'int', nullable: false })
   minPlayers: number
 
-  @Column({ nullable: false })
+  @Column({ type: 'int', nullable: false })
   maxPlayers: number
 
   @CreateDateColumn()
@@ -56,9 +56,9 @@ export class Game {
   updatedAt: Date
 
   // RELATIONS
-  @OneToMany(() => Lobby, (lobby) => lobby.game)
+  @OneToMany('Lobby', (lobby: Lobby) => lobby.game)
   lobbies: Lobby[]
 
-  @OneToMany(() => Match, (match) => match.game)
+  @OneToMany('Match', (match: Match) => match.game)
   matches: Match[]
 }

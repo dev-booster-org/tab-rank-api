@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Repository } from 'typeorm'
 
-import { AppDataSource } from '@database/typeorm-datasource'
+import AppDataSource from '@database/typeorm-datasource'
 import { User } from '@entities/user.entity'
 
 import {

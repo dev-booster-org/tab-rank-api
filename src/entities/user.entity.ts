@@ -8,21 +8,21 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import { Match } from './match.entity'
-import { Lobby } from './lobby.entity'
+import type { Match } from './match.entity.js'
+import type { Lobby } from './lobby.entity.js'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({ nullable: false, unique: true })
+  @Column({ type: 'varchar', nullable: false, unique: true })
   nickName: string
 
-  @Column({ nullable: false, unique: true })
+  @Column({ type: 'varchar', nullable: false, unique: true })
   email: string
 
-  @Column({ nullable: false })
+  @Column({ type: 'varchar', nullable: false })
   password: string
 
   @CreateDateColumn()
@@ -32,15 +32,15 @@ export class User {
   updatedAt: Date
 
   // RELATIONS
-  @OneToMany(() => Match, (match) => match.winner)
+  @OneToMany('Match', (match: Match) => match.winner)
   wonMatches: Match[]
 
-  @OneToMany(() => Lobby, (lobby) => lobby.host)
+  @OneToMany('Lobby', (lobby: Lobby) => lobby.host)
   lobbiesHost: Lobby[]
 
-  @ManyToMany(() => Match, (match) => match.players)
+  @ManyToMany('Match', (match: Match) => match.players)
   matches: Match[]
 
-  @ManyToMany(() => Lobby, (lobby) => lobby.players)
+  @ManyToMany('Lobby', (lobby: Lobby) => lobby.players)
   lobbies: Lobby[]
 }
