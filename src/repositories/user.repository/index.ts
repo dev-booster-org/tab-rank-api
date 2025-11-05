@@ -11,6 +11,8 @@ import {
   FindByEmailResponse,
   FindByIdentifierProps,
   FindByIdentifierResponse,
+  FindByIdProps,
+  FindByIdResponse,
   FindByNickNameProps,
   FindByNickNameResponse,
 } from './interfaces'
@@ -67,5 +69,13 @@ export class UserRepository {
     if (user) return user
 
     return null
+  }
+
+  async findById({ id }: FindByIdProps): Promise<FindByIdResponse> {
+    const user = await this.userRepository.findOne({ where: { id } })
+
+    if (!user) return null
+
+    return user
   }
 }

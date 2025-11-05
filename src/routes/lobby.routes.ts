@@ -1,10 +1,15 @@
 import { Router } from 'express'
 
 import { LobbyController } from '@controllers/lobby.controller'
+import { ensureAuthenticatedMiddleware } from '@shared/middlewares/ensure-authenticated.middleware'
 
 const lobbyController = new LobbyController()
 
 export const lobbyRoutes = Router()
 
-lobbyRoutes.post('/create', lobbyController.create)
-lobbyRoutes.post('/join', lobbyController.join)
+lobbyRoutes.post(
+  '/create',
+  ensureAuthenticatedMiddleware,
+  lobbyController.create,
+)
+lobbyRoutes.post('/join', ensureAuthenticatedMiddleware, lobbyController.join)

@@ -30,8 +30,7 @@ export class CreateLobbyService {
   private generateJoinCode(): string {
     const codeLength = 6
 
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     let joinCode = ''
     for (let i = 0; i < codeLength; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length)

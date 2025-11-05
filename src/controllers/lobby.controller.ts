@@ -6,7 +6,8 @@ import { JoinLobbyService } from '@services/lobby/join-lobby.service'
 
 export class LobbyController {
   async create(request: Request, response: Response) {
-    const { gameId, hostId } = request.body
+    const { gameId } = request.body
+    const hostId = request.user.id
 
     const createLobbyService = container.resolve(CreateLobbyService)
 
@@ -19,7 +20,8 @@ export class LobbyController {
   }
 
   async join(request: Request, response: Response) {
-    const { lobbyId, userId } = request.body
+    const { lobbyId } = request.body
+    const userId = request.user.id
 
     const joinLobbyService = container.resolve(JoinLobbyService)
 
