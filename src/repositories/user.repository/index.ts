@@ -9,6 +9,8 @@ import {
   CreateResponse,
   FindByEmailProps,
   FindByEmailResponse,
+  FindByIdentifierProps,
+  FindByIdentifierResponse,
   FindByNickNameProps,
   FindByNickNameResponse,
 } from './interfaces'
@@ -53,5 +55,17 @@ export class UserRepository {
     const { password: _, ...rest } = user
 
     return rest
+  }
+
+  async findByIdentifier({
+    identifier,
+  }: FindByIdentifierProps): Promise<FindByIdentifierResponse> {
+    const user = await this.userRepository.findOne({
+      where: [{ email: identifier }, { nickName: identifier }],
+    })
+
+    if (user) return user
+
+    return null
   }
 }

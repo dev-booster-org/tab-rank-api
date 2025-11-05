@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe'
+import { hash } from 'bcrypt'
 
 import { UserRepository } from '@repositories/user.repository'
 
@@ -30,6 +31,14 @@ export class CreateUserService {
       throw new Error('NickName already in use')
     }
 
-    return this.userRepository.create({ nickName, email, password })
+    const hashedPassword = await hash(password, 10)
+
+    const createdUser = this.userRepository.create({
+      nickName,
+      email,
+      password: hashedPassword,
+    })
+
+    return createdUser
   }
 }
