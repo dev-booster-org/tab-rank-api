@@ -12,4 +12,5 @@ export default defineConfig({
   dts: true,
   shims: false,
   watch: process.env.NODE_ENV === 'development',
+  plugins: [],
 })

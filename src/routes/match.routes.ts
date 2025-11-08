@@ -7,4 +7,8 @@ const matchController = new MatchController()
 
 export const matchRoutes = Router()
 
-matchRoutes.post('/', ensureAuthenticatedMiddleware, matchController.create)
+matchRoutes.post(
+  '/create',
+  ensureAuthenticatedMiddleware,
+  matchController.create,
+)
