@@ -8,3 +8,4 @@ const gameController = new GameController()
 export const gameRoutes = Router()
 
 gameRoutes.post('/create', ensureAuthenticatedMiddleware, gameController.create)
+gameRoutes.get('/list', gameController.list)
