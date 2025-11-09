@@ -3,12 +3,19 @@ import 'dotenv/config'
 import '@shared/container'
 
 import express, { NextFunction, Request, Response } from 'express'
+import cors from 'cors'
 
 import { routes } from '@routes/index'
 import AppDataSource from '@database/typeorm-datasource'
 import { AppError } from '@shared/errors/app-error'
 
 const app = express()
+
+app.use(
+  cors({
+    origin: '*',
+  }),
+)
 
 app.use(express.json())
 
