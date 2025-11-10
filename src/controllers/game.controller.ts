@@ -1,9 +1,11 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 
+import { type GameTypeEnum } from '@entities/game.entity'
+
 import { CreateGameService } from '@services/game/create-game.service'
 import { ListGamesService } from '@services/game/list-games.service'
-import { type GameTypeEnum } from '@entities/game.entity'
+import { ListGameRankService } from '@services/game/list-game-rank.service'
 
 export class GameController {
   async create(request: Request, response: Response) {
@@ -33,5 +35,13 @@ export class GameController {
     })
 
     return response.status(200).json(games)
+  }
+
+  async listGameRank(request: Request, response: Response) {
+    const listGameRankService = container.resolve(ListGameRankService)
+
+    const gameRanks = await listGameRankService.execute()
+
+    return response.status(200).json(gameRanks)
   }
 }

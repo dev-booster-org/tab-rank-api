@@ -9,6 +9,7 @@ import {
   CreateResponse,
   FindAllProps,
   FindAllResponse,
+  ListGameRankResponse,
 } from './interfaces'
 
 export class GameRepository {
@@ -51,5 +52,54 @@ export class GameRepository {
     const games = await queryBuilder.getMany()
 
     return games
+  }
+
+  async listGameRank(): Promise<ListGameRankResponse[]> {
+    const results = await this.gameRepository
+      .createQueryBuilder('game')
+      .leftJoin('game.matches', 'match')
+      .leftJoin('match.winner', 'winner')
+      .select('game.id', 'gameId')
+      .addSelect('game.name', 'gameName')
+      .addSelect('winner.id', 'winnerId')
+      .addSelect('winner.nickName', 'winnerNickName')
+      .addSelect('COUNT(match.id)', 'victoriesCount')
+      .where('match.winner IS NOT NULL')
+      .groupBy('game.id')
+      .addGroupBy('game.name')
+      .addGroupBy('winner.id')
+      .addGroupBy('winner.nickName')
+      .getRawMany()
+
+    const gameRankMap = new Map<
+      string,
+      {
+        id: string
+        name: string
+        winner: { id: string; nickName: string; victoriesCount: number }
+      }
+    >()
+
+    for (const row of results) {
+      const gameId = row.gameId
+      const victoriesCount = parseInt(row.victoriesCount, 10)
+
+      if (
+        !gameRankMap.has(gameId) ||
+        victoriesCount > gameRankMap.get(gameId)!.winner.victoriesCount
+      ) {
+        gameRankMap.set(gameId, {
+          id: gameId,
+          name: row.gameName,
+          winner: {
+            id: row.winnerId,
+            nickName: row.winnerNickName,
+            victoriesCount,
+          },
+        })
+      }
+    }
+
+    return Array.from(gameRankMap.values())
   }
 }

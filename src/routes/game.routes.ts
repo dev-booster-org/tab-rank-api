@@ -8,4 +8,9 @@ const gameController = new GameController()
 export const gameRoutes = Router()
 
 gameRoutes.post('/create', ensureAuthenticatedMiddleware, gameController.create)
-gameRoutes.get('/list', gameController.list)
+gameRoutes.get('/list', ensureAuthenticatedMiddleware, gameController.list)
+gameRoutes.get(
+  '/list-game-rank',
+  ensureAuthenticatedMiddleware,
+  gameController.listGameRank,
+)
