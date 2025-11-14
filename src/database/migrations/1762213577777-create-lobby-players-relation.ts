@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from 'typeorm'
+import { type MigrationInterface, type QueryRunner } from 'typeorm'
 
 export class CreateLobbyPlayersRelation1762213577777
   implements MigrationInterface

@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from 'typeorm'
+import { type MigrationInterface, type QueryRunner } from 'typeorm'
 
 export class CreateLobbyTable1762199572644 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

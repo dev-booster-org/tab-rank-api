@@ -8,7 +8,7 @@ export default defineConfig({
   clean: true,
   minify: false,
   target: 'node18',
-  format: ['esm', 'cjs'],
+  format: ['cjs'],
   dts: true,
   shims: false,
   watch: process.env.NODE_ENV === 'development',
