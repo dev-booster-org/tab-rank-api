@@ -1,9 +1,10 @@
 import { inject, injectable } from 'tsyringe'
 
 import { LobbyRepository } from '@repositories/lobby.repository'
+import { AppError } from '@/shared/errors/app-error'
 
 type IRequest = {
-  lobbyId: string
+  joinCode: string
   userId: string
 }
 
@@ -14,7 +15,13 @@ export class JoinLobbyService {
     private lobbyRepository: LobbyRepository,
   ) {}
 
-  async execute({ lobbyId, userId }: IRequest) {
-    return this.lobbyRepository.join({ lobbyId, userId })
+  async execute({ joinCode, userId }: IRequest) {
+    const lobby = await this.lobbyRepository.getByJoinCode({ joinCode })
+
+    if (!lobby) {
+      throw new AppError('Lobby não encontrado', 404)
+    }
+
+    return this.lobbyRepository.join({ lobbyId: lobby.id, userId })
   }
 }

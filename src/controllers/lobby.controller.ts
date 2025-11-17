@@ -21,13 +21,13 @@ export class LobbyController {
   }
 
   async join(request: Request, response: Response) {
-    const { lobbyId } = request.body
+    const { joinCode } = request.body
     const userId = request.user.id
 
     const joinLobbyService = container.resolve(JoinLobbyService)
 
     const lobby = await joinLobbyService.execute({
-      lobbyId,
+      joinCode,
       userId,
     })
 

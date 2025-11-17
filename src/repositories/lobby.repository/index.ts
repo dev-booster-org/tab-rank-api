@@ -8,6 +8,8 @@ import {
   CreateResponse,
   GetLobbyByIdProps,
   GetLobbyByIdResponse,
+  GetLobbyByJoinCodeProps,
+  GetLobbyByJoinCodeResponse,
   JoinProps,
   JoinResponse,
 } from './interfaces'
@@ -37,7 +39,7 @@ export class LobbyRepository {
   async join({ lobbyId, userId }: JoinProps): Promise<JoinResponse> {
     const lobby = await this.lobbyRepository.findOne({
       where: { id: lobbyId },
-      relations: ['players'],
+      relations: ['host', 'game', 'players', 'matches'],
     })
 
     if (!lobby) throw new Error('Lobby not found')
@@ -65,6 +67,17 @@ export class LobbyRepository {
   async getById({ id }: GetLobbyByIdProps): Promise<GetLobbyByIdResponse> {
     const lobby = await this.lobbyRepository.findOne({
       where: { id },
+      relations: ['host', 'game', 'players', 'matches'],
+    })
+
+    return lobby
+  }
+
+  async getByJoinCode({
+    joinCode,
+  }: GetLobbyByJoinCodeProps): Promise<GetLobbyByJoinCodeResponse> {
+    const lobby = await this.lobbyRepository.findOne({
+      where: { joinCode },
       relations: ['host', 'game', 'players', 'matches'],
     })
 
