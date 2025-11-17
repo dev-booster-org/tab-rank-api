@@ -12,4 +12,7 @@ lobbyRoutes.post(
   ensureAuthenticatedMiddleware,
   lobbyController.create,
 )
+
 lobbyRoutes.post('/join', ensureAuthenticatedMiddleware, lobbyController.join)
+
+lobbyRoutes.get('/:id', ensureAuthenticatedMiddleware, lobbyController.getById)

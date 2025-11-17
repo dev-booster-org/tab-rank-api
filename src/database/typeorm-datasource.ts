@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv'
 
 import { DataSource } from 'typeorm'
 
-import { entities } from '@/entities'
+import { entities } from '../entities'
 
 dotenv.config()
 

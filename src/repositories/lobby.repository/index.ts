@@ -6,6 +6,8 @@ import AppDataSource from '@database/typeorm-datasource'
 import {
   CreateProps,
   CreateResponse,
+  GetLobbyByIdProps,
+  GetLobbyByIdResponse,
   JoinProps,
   JoinResponse,
 } from './interfaces'
@@ -58,5 +60,14 @@ export class LobbyRepository {
     })
 
     return updatedLobby!
+  }
+
+  async getById({ id }: GetLobbyByIdProps): Promise<GetLobbyByIdResponse> {
+    const lobby = await this.lobbyRepository.findOne({
+      where: { id },
+      relations: ['host', 'game', 'players', 'matches'],
+    })
+
+    return lobby
   }
 }
