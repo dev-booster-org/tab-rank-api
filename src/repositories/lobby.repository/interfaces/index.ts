@@ -1,4 +1,7 @@
 export * from './create.interface'
+export * from './disable-lobby.interface'
+export * from './get-active-lobby-by-user-id.interface'
 export * from './get-lobby-by-id.interface'
 export * from './get-lobby-by-join-code.interface'
 export * from './join.interface'
+export * from './leave-lobby.interface'

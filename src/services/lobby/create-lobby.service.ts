@@ -2,6 +2,8 @@ import { inject, injectable } from 'tsyringe'
 
 import { LobbyRepository } from '@repositories/lobby.repository'
 
+import { AppError } from '@/shared/errors/app-error'
+
 type IRequest = {
   gameId: string
   hostId: string
@@ -15,7 +17,14 @@ export class CreateLobbyService {
   ) {}
 
   async execute({ gameId, hostId }: IRequest) {
-    // Verificar se o host já possui um lobby ativo
+    const userIsInActiveLobby =
+      await this.lobbyRepository.getActiveLobbyByUserId({
+        userId: hostId,
+      })
+
+    if (userIsInActiveLobby) {
+      throw new AppError('Você já está em um lobby ativo', 403)
+    }
 
     const joinCode = this.generateJoinCode()
 

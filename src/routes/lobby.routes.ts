@@ -15,4 +15,12 @@ lobbyRoutes.post(
 
 lobbyRoutes.post('/join', ensureAuthenticatedMiddleware, lobbyController.join)
 
+lobbyRoutes.get(
+  '/active',
+  ensureAuthenticatedMiddleware,
+  lobbyController.getActiveByUser,
+)
+
 lobbyRoutes.get('/:id', ensureAuthenticatedMiddleware, lobbyController.getById)
+
+lobbyRoutes.post('/leave', ensureAuthenticatedMiddleware, lobbyController.leave)
