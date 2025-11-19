@@ -4,12 +4,17 @@ import '@shared/container'
 
 import express, { NextFunction, Request, Response } from 'express'
 import cors from 'cors'
+import { createServer } from 'http'
 
 import { routes } from '@routes/index'
 import AppDataSource from '@database/typeorm-datasource'
 import { AppError } from '@shared/errors/app-error'
+import { initSocketIo } from '@shared/events/socket-io'
 
 const app = express()
+const server = createServer(app)
+
+initSocketIo({ server })
 
 app.use(
   cors({
@@ -43,7 +48,8 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 
 const PORT = process.env.PORT || 3000
 
-app.listen(PORT, async () => {
+// Substitua app.listen por server.listen para que o Socket.IO fique ativo
+server.listen(PORT, async () => {
   await AppDataSource.initialize()
     .then(() => {
       console.log('📦 - Database connected')
