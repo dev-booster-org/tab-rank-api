@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe'
 
 import { LobbyRepository } from '@repositories/lobby.repository'
-import { AppError } from '@/shared/errors/app-error'
+import { AppError } from '@shared/errors/app-error'
+import { getSocketIo } from '@shared/events/socket-io'
 
 type IRequest = {
   joinCode: string
@@ -14,6 +15,8 @@ export class JoinLobbyService {
     @inject('LobbyRepository')
     private lobbyRepository: LobbyRepository,
   ) {}
+
+  private socketIo = getSocketIo()
 
   async execute({ joinCode, userId }: IRequest) {
     const userIsInActiveLobby =
@@ -35,6 +38,17 @@ export class JoinLobbyService {
       throw new AppError('Este lobby não está mais ativo', 403)
     }
 
-    return this.lobbyRepository.join({ lobbyId: lobby.id, userId })
+    const joinedLobby = await this.lobbyRepository.join({
+      lobbyId: lobby.id,
+      userId,
+    })
+
+    const userData = joinedLobby.players.find((player) => player.id === userId)
+
+    this.socketIo.to(lobby.id).emit('lobby:player-joined', {
+      userData,
+    })
+
+    return joinedLobby
   }
 }

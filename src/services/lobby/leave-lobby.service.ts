@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe'
 
 import { LobbyRepository } from '@repositories/lobby.repository'
-import { AppError } from '@/shared/errors/app-error'
+import { AppError } from '@shared/errors/app-error'
+import { getSocketIo } from '@shared/events/socket-io'
 
 type IRequest = {
   lobbyId: string
@@ -14,6 +15,8 @@ export class LeaveLobbyService {
     @inject('LobbyRepository')
     private lobbyRepository: LobbyRepository,
   ) {}
+
+  private socketIo = getSocketIo()
 
   async execute({ userId, lobbyId }: IRequest) {
     const lobby = await this.lobbyRepository.getById({ id: lobbyId })
@@ -36,6 +39,11 @@ export class LeaveLobbyService {
     const leftLobby = await this.lobbyRepository.leaveLobbyAsPlayer({
       lobbyId,
       userId,
+    })
+
+    this.socketIo.to(lobby.id).emit('lobby:player-left', {
+      playerLeftId: userId,
+      newHostId: leftLobby.host.id,
     })
 
     return leftLobby

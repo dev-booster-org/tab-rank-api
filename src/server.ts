@@ -48,7 +48,6 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 
 const PORT = process.env.PORT || 3000
 
-// Substitua app.listen por server.listen para que o Socket.IO fique ativo
 server.listen(PORT, async () => {
   await AppDataSource.initialize()
     .then(() => {
