@@ -3,6 +3,7 @@ import 'dotenv/config'
 import * as dotenv from 'dotenv'
 
 import typeorm from 'typeorm'
+import { entities } from '@entities/index'
 
 dotenv.config()
 
@@ -13,8 +14,8 @@ const AppDataSource = new typeorm.DataSource({
   username: process.env.PG_USER as string,
   password: process.env.PG_PASSWORD as string,
   database: process.env.PG_NAME as string,
-  migrations: ['src/database/migrations/*.{ts,js}'],
-  entities: ['src/entities/*.entity.{ts,js}'],
+  migrations: [],
+  entities,
   logging: false,
   synchronize: false,
 })
