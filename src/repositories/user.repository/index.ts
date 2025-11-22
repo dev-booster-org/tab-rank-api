@@ -2,7 +2,7 @@
 import { Repository } from 'typeorm'
 
 import AppDataSource from '@database/typeorm-datasource'
-import { User } from '@entities/user.entity'
+import User from '@entities/user.entity'
 
 import {
   CreateProps,

@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm'
 
-import { Lobby } from '@entities/lobby.entity'
+import Lobby from '@entities/lobby.entity'
 import AppDataSource from '@database/typeorm-datasource'
 
 import {
@@ -130,7 +130,7 @@ export class LobbyRepository {
   }: LeaveLobbyProps): Promise<LeaveLobbyResponse> {
     const lobby = await this.lobbyRepository.findOne({
       where: { id: lobbyId },
-      relations: ['players'],
+      relations: ['players', 'host'],
     })
 
     if (!lobby) throw new Error('Lobby not found')

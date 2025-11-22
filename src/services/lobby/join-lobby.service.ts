@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe'
 import { LobbyRepository } from '@repositories/lobby.repository'
 import { AppError } from '@shared/errors/app-error'
 import { getSocketIo } from '@shared/events/socket-io'
+import User from '@/entities/user.entity'
 
 type IRequest = {
   joinCode: string
@@ -43,11 +44,11 @@ export class JoinLobbyService {
       userId,
     })
 
-    const userData = joinedLobby.players.find((player) => player.id === userId)
+    const userData = joinedLobby.players.find(
+      (player: User) => player.id === userId,
+    )
 
-    this.socketIo.to(lobby.id).emit('lobby:player-joined', {
-      userData,
-    })
+    this.socketIo.emit('lobby:player-joined', userData)
 
     return joinedLobby
   }

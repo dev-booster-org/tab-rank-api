@@ -11,12 +11,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import type { User } from './user.entity.js'
-import type { Match } from './match.entity.js'
-import type { Game } from './game.entity.js'
+import User from './user.entity.js'
+import Match from './match.entity.js'
+import Game from './game.entity.js'
 
 @Entity()
-export class Lobby {
+export default class Lobby {
   @PrimaryGeneratedColumn('uuid')
   id: string
 

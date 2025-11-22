@@ -2,7 +2,7 @@
 import { Repository } from 'typeorm'
 
 import AppDataSource from '@database/typeorm-datasource'
-import { Game } from '@entities/game.entity'
+import Game from '@entities/game.entity'
 
 import {
   CreateProps,

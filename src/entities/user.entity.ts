@@ -8,11 +8,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import type { Match } from './match.entity.js'
-import type { Lobby } from './lobby.entity.js'
+import Match from './match.entity.js'
+import Lobby from './lobby.entity.js'
 
 @Entity()
-export class User {
+export default class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
 

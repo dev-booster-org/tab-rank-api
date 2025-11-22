@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import type { Match } from './match.entity.js'
-import type { Lobby } from './lobby.entity.js'
+import Match from './match.entity.js'
+import Lobby from './lobby.entity.js'
 
 export enum GameTypeEnum {
   STRATEGY = 'strategy',
@@ -30,7 +30,7 @@ export enum GameTypeEnum {
 }
 
 @Entity()
-export class Game {
+export default class Game {
   @PrimaryGeneratedColumn('uuid')
   id: string
 

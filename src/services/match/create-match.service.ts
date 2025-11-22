@@ -29,9 +29,7 @@ export class CreateMatchService {
       winnerId: winnerId ?? null,
     })
 
-    this.socketIo.to(lobbyId).emit('match:created', {
-      match: createdMatch,
-    })
+    this.socketIo.emit('match:created', createdMatch)
 
     return createdMatch
   }

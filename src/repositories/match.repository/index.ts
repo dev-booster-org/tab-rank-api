@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm'
 
-import { Match } from '@entities/match.entity'
+import Match from '@entities/match.entity'
 import AppDataSource from '@database/typeorm-datasource'
 
 import { CreateProps, CreateResponse } from './interfaces'
