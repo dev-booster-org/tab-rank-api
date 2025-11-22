@@ -116,10 +116,19 @@ export class LobbyRepository {
   async getActiveLobbyByUserId({
     userId,
   }: GetActiveLobbyByUserIdProps): Promise<GetActiveLobbyByUserResponse> {
-    const lobby = await this.lobbyRepository.findOne({
-      where: { host: { id: userId }, isActive: true },
-      relations: ['players', 'host'],
-    })
+    const query = this.lobbyRepository
+      .createQueryBuilder('lobby')
+      .leftJoinAndSelect('lobby.host', 'host')
+      .leftJoinAndSelect('lobby.game', 'game')
+      .leftJoinAndSelect('lobby.players', 'players')
+      .leftJoinAndSelect('lobby.matches', 'matches')
+      .leftJoinAndSelect('matches.players', 'matchPlayers')
+      .leftJoinAndSelect('matches.winner', 'winner')
+      .where('lobby.isActive = :isActive', { isActive: true })
+      .andWhere('(host.id = :userId OR players.id = :userId)', { userId })
+      .getOne()
+
+    const lobby = await query
 
     return lobby
   }

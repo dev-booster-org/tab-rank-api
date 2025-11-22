@@ -17,7 +17,21 @@ export function initSocketIo({ server }: InitSocketIo): SocketIoServer {
   console.log('🟢 - Socket.io initialized')
 
   socketIo.on('connection', (socket) => {
-    console.log('\n 🟢 - Client connected:', socket.id)
+    console.log(`🔌 - Client connected: ${socket.id}`)
+
+    socket.on('room:join', (roomId: string) => {
+      socket.join(roomId)
+      console.log(`📥 - Client ${socket.id} joined room: ${roomId}`)
+    })
+
+    socket.on('room:leave', (roomId: string) => {
+      socket.leave(roomId)
+      console.log(`📤 - Client ${socket.id} left room: ${roomId}`)
+    })
+
+    socket.on('disconnect', () => {
+      console.log(`❌ - Client disconnected: ${socket.id}`)
+    })
   })
 
   return socketIo

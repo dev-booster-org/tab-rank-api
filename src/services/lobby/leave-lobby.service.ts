@@ -33,7 +33,7 @@ export class LeaveLobbyService {
         userId,
       })
 
-      this.socketIo.emit('lobby:host-left', leftLobby.host.id)
+      this.socketIo.to(lobbyId).emit('lobby:host-left', leftLobby.host.id)
 
       return leftLobby
     }
@@ -43,7 +43,7 @@ export class LeaveLobbyService {
       userId,
     })
 
-    this.socketIo.emit('lobby:player-left', userId)
+    this.socketIo.to(lobbyId).emit('lobby:player-left', userId)
 
     return leftLobby
   }

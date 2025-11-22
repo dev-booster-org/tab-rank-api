@@ -9,6 +9,8 @@ import {
   CreateResponse,
   FindAllProps,
   FindAllResponse,
+  FindByIdProps,
+  FindByIdResponse,
   ListGameRankResponse,
 } from './interfaces'
 
@@ -101,5 +103,11 @@ export class GameRepository {
     }
 
     return Array.from(gameRankMap.values())
+  }
+
+  async findById({ id }: FindByIdProps): Promise<FindByIdResponse> {
+    const game = await this.gameRepository.findOneBy({ id })
+
+    return game
   }
 }

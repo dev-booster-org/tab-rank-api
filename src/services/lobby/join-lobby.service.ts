@@ -4,6 +4,7 @@ import { LobbyRepository } from '@repositories/lobby.repository'
 import { AppError } from '@shared/errors/app-error'
 import { getSocketIo } from '@shared/events/socket-io'
 import User from '@/entities/user.entity'
+import { GameRepository } from '@/repositories/game.repository'
 
 type IRequest = {
   joinCode: string
@@ -15,6 +16,9 @@ export class JoinLobbyService {
   constructor(
     @inject('LobbyRepository')
     private lobbyRepository: LobbyRepository,
+
+    @inject('GameRepository')
+    private gameRepository: GameRepository,
   ) {}
 
   private socketIo = getSocketIo()
@@ -29,7 +33,21 @@ export class JoinLobbyService {
       throw new AppError('Você já está em um lobby ativo', 403)
     }
 
-    const lobby = await this.lobbyRepository.getByJoinCode({ joinCode })
+    const formattedJoinCode = joinCode.trim().toUpperCase()
+
+    const lobby = await this.lobbyRepository.getByJoinCode({
+      joinCode: formattedJoinCode,
+    })
+
+    const game = await this.gameRepository.findById({ id: lobby.gameId })
+
+    if (!game) {
+      throw new AppError('Jogo do lobby não encontrado', 404)
+    }
+
+    if ([lobby.host, ...lobby.players].length >= game.maxPlayers) {
+      throw new AppError('O lobby já atingiu o número máximo de jogadores', 403)
+    }
 
     if (!lobby) {
       throw new AppError('Lobby não encontrado', 404)
@@ -48,7 +66,7 @@ export class JoinLobbyService {
       (player: User) => player.id === userId,
     )
 
-    this.socketIo.emit('lobby:player-joined', userData)
+    this.socketIo.to(lobby.id).emit('lobby:player-joined', userData)
 
     return joinedLobby
   }
