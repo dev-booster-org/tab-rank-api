@@ -20,7 +20,7 @@ export class UserController {
   }
 
   async getById(request: Request, response: Response) {
-    const { id } = request.query
+    const { id } = request.params
 
     const getUserByIdService = container.resolve(GetUserByIdService)
 

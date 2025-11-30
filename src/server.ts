@@ -29,6 +29,10 @@ app.use(express.json())
 
 app.use('/api', routes)
 
+app.use('/', (request: Request, response: Response) => {
+  return response.json({ message: 'API is running 🚀' })
+})
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   if (err instanceof AppError) {

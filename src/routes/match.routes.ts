@@ -12,3 +12,9 @@ matchRoutes.post(
   ensureAuthenticatedMiddleware,
   matchController.create,
 )
+
+matchRoutes.get(
+  '/:userId/get-by-user-id',
+  ensureAuthenticatedMiddleware,
+  matchController.getByUserId,
+)

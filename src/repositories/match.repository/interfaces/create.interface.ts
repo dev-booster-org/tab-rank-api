@@ -1,4 +1,4 @@
-import { Match } from '@entities/match.entity'
+import Match from '@entities/match.entity'
 
 export interface CreateProps {
   duration: number
