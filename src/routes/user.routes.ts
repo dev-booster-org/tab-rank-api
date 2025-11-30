@@ -7,3 +7,5 @@ const userController = new UserController()
 export const userRoutes = Router()
 
 userRoutes.post('/create', userController.create)
+
+userRoutes.get('/:id/get-by-id', userController.getById)
