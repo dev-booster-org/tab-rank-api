@@ -14,6 +14,8 @@ export class ListGameRankByUserService {
   ) {}
 
   async execute({ userId }: IRequest) {
-    console.log({ userId })
+    const gameRanks = await this.gameRepository.listGameRankByUser({ userId })
+
+    return gameRanks
   }
 }

@@ -23,11 +23,14 @@ export class MatchController {
 
   async getByUserId(request: Request, response: Response) {
     const { userId } = request.params
+    const { page, limit } = request.query
 
     const getMatchByUserIdService = container.resolve(GetMatchByUserIdService)
 
     const user = await getMatchByUserIdService.execute({
       userId: String(userId),
+      page: page ? Number(page) : undefined,
+      limit: limit ? Number(limit) : undefined,
     })
 
     return response.status(200).json(user)

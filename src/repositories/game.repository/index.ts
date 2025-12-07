@@ -110,7 +110,31 @@ export class GameRepository {
   async listGameRankByUser({
     userId,
   }: ListGameRankByUserProps): Promise<ListGameRankByUserResponse[]> {
-    throw new Error('Method not implemented.')
+    const results = await this.gameRepository
+      .createQueryBuilder('game')
+      .leftJoin('game.matches', 'match')
+      .leftJoin('match.winner', 'winner')
+      .select('game.id', 'gameId')
+      .addSelect('game.name', 'gameName')
+      .addSelect(
+        'COUNT(CASE WHEN winner.id = :userId THEN 1 END)',
+        'victoriesCount',
+      )
+      .addSelect('COUNT(match.id)', 'matchesCount')
+      .where('match.winner IS NOT NULL')
+      .setParameter('userId', userId)
+      .groupBy('game.id')
+      .addGroupBy('game.name')
+      .getRawMany()
+
+    return results.map((row) => ({
+      game: {
+        id: row.gameId,
+        name: row.gameName,
+      },
+      victoriesCount: parseInt(row.victoriesCount, 10),
+      matchesCount: parseInt(row.matchesCount, 10),
+    }))
   }
 
   async findById({ id }: FindByIdProps): Promise<FindByIdResponse> {
