@@ -11,6 +11,8 @@ import {
   FindAllResponse,
   FindByIdProps,
   FindByIdResponse,
+  ListGameRankByUserProps,
+  ListGameRankByUserResponse,
   ListGameRankResponse,
 } from './interfaces'
 
@@ -103,6 +105,36 @@ export class GameRepository {
     }
 
     return Array.from(gameRankMap.values())
+  }
+
+  async listGameRankByUser({
+    userId,
+  }: ListGameRankByUserProps): Promise<ListGameRankByUserResponse[]> {
+    const results = await this.gameRepository
+      .createQueryBuilder('game')
+      .leftJoin('game.matches', 'match')
+      .leftJoin('match.winner', 'winner')
+      .select('game.id', 'gameId')
+      .addSelect('game.name', 'gameName')
+      .addSelect(
+        'COUNT(CASE WHEN winner.id = :userId THEN 1 END)',
+        'victoriesCount',
+      )
+      .addSelect('COUNT(match.id)', 'matchesCount')
+      .where('match.winner IS NOT NULL')
+      .setParameter('userId', userId)
+      .groupBy('game.id')
+      .addGroupBy('game.name')
+      .getRawMany()
+
+    return results.map((row) => ({
+      game: {
+        id: row.gameId,
+        name: row.gameName,
+      },
+      victoriesCount: parseInt(row.victoriesCount, 10),
+      matchesCount: parseInt(row.matchesCount, 10),
+    }))
   }
 
   async findById({ id }: FindByIdProps): Promise<FindByIdResponse> {

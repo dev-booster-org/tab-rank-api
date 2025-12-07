@@ -6,6 +6,7 @@ import { type GameTypeEnum } from '@entities/game.entity'
 import { CreateGameService } from '@services/game/create-game.service'
 import { ListGamesService } from '@services/game/list-games.service'
 import { ListGameRankService } from '@services/game/list-game-rank.service'
+import { ListGameRankByUserService } from '@/services/game/list-game-rank-by-user.service'
 
 export class GameController {
   async create(request: Request, response: Response) {
@@ -41,6 +42,18 @@ export class GameController {
     const listGameRankService = container.resolve(ListGameRankService)
 
     const gameRanks = await listGameRankService.execute()
+
+    return response.status(200).json(gameRanks)
+  }
+
+  async listGameRankByUser(request: Request, response: Response) {
+    const listGameRankByUserService = container.resolve(
+      ListGameRankByUserService,
+    )
+
+    const { userId } = request.params
+
+    const gameRanks = await listGameRankByUserService.execute({ userId })
 
     return response.status(200).json(gameRanks)
   }
