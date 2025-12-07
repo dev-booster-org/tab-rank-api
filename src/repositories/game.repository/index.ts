@@ -11,6 +11,8 @@ import {
   FindAllResponse,
   FindByIdProps,
   FindByIdResponse,
+  ListGameRankByUserProps,
+  ListGameRankByUserResponse,
   ListGameRankResponse,
 } from './interfaces'
 
@@ -103,6 +105,12 @@ export class GameRepository {
     }
 
     return Array.from(gameRankMap.values())
+  }
+
+  async listGameRankByUser({
+    userId,
+  }: ListGameRankByUserProps): Promise<ListGameRankByUserResponse[]> {
+    throw new Error('Method not implemented.')
   }
 
   async findById({ id }: FindByIdProps): Promise<FindByIdResponse> {
