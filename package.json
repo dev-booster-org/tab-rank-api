@@ -1,9 +1,13 @@
 {
-  "name": "api-tab-rank",
+  "name": "tab-rank-api",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
   "type": "module",
+  "author": {
+    "name": "Jhones Jhonatas",
+    "email": "jhones.jhonatas@outlook.com.br"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsx --watch src/server.ts",
@@ -14,9 +18,11 @@
     "migration:revert": "npm run typeorm -- migration:revert",
     "migration:generate": "typeorm-ts-node-esm migration:generate src/database/migrations/$npm_config_name -d ./src/database/typeorm-datasource.ts"
   },
+  "engines": {
+    "node": "24.11.1"
+  },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
